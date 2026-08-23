@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Viewer</title>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; }
+        #pdf-container { width: 100%; height: 90vh; border: 1px solid #ccc; }
+        canvas { display: block; margin: 10px auto; }
+    </style>
+</head>
+<body>
+    <h1>Modern System 5 PDF</h1>
+    <div id="pdf-container">
+        <canvas id="pdf-canvas"></canvas>
+    </div>
+    
+    <script>
+        const url = 'https://raw.githubusercontent.com/c2610408/keben/main/modernsystem5.pdf';
+        pdfjsLib.getDocument(url).promise.then(pdf => {
+            pdf.getPage(1).then(page => {
+                const canvas = document.getElementById('pdf-canvas');
+                const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 1.5 });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                page.render({ canvasContext: context, viewport: viewport });
+            });
+        });
+    </script>
+</body>
+</html>
